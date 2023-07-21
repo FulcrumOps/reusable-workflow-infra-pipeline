@@ -1,0 +1,51 @@
+on:
+  workflow_dispatch:
+    inputs:
+      firstName:
+        description: 'First Name'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      firstName:
+        description: 'First Name'
+        required: true
+        type: string
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+#      - name: Demo
+#        run: echo "Hello, ${{ inputs.firstName }}. I am using ${{  secrets.FULCRUM_CI_TOKEN }} as a secret. although GitHub will redact it."
+
+      - name: Check out infrastructure-live
+        uses: actions/checkout@v3
+        with:
+          repository: FulcrumOps/infrastructure-live
+          path: infrastructure-live
+          token: "${{ secrets.FULCRUM_CI_TOKEN }}"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.3
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        working-directory: infrastructure-live/direct/null
+        continue-on-error: true
+
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        id: init
+        run: terraform init
+        working-directory: infrastructure-live/direct/null
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -input=false
+        working-directory: infrastructure-live/direct/null
