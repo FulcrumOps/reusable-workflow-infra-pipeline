@@ -6,6 +6,7 @@ on:
 
 jobs:
   demo:
+    name: Terraform Plan
     runs-on: ubuntu-latest
     defaults:
       run:
