@@ -11,12 +11,12 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Repo secret
+      - name: Repo secret (will be redacted if run locally or empty if reused from another workflow)
         run: |
-            echo "REPO_SECRET is ${{ secrets.REPO_SECRET }} (redacted or empty if reused from another workflow)"
-      - name: Org secret
+            echo "REPO_SECRET: ${{ secrets.REPO_SECRET }}"
+      - name: Org secret (will be redacted)
         run: |
-            echo "ORG_SECRET is ${{ secrets.ORG_SECRET }} (redacted)"
+            echo "ORG_SECRET: ${{ secrets.ORG_SECRET }}"
       - name: Check out infrastructure-live
         uses: actions/checkout@v3
         with:
