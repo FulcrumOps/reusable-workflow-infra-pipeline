@@ -15,7 +15,7 @@ jobs:
       - name: infra-live secret (will be redacted if run locally or empty if reused from another workflow)
         run: |
             echo "INFRA_LIVE_SECRET: ${{ secrets.INFRA_LIVE_SECRET }}"
-      - name: infra-pipeline secret (will be redacted)
+      - name: infra-pipeline secret (will be empty if run locally or redacted if used from another workflow)
         run: |
             echo "INFRA_PIPELINE_SECRET: ${{ secrets.INFRA_PIPELINE_SECRET }}"
       - name: org secret (will be redacted)
