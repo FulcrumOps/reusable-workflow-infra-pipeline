@@ -18,10 +18,10 @@ jobs:
       - name: Org secret (will be redacted)
         run: |
             echo "ORG_SECRET: ${{ secrets.ORG_SECRET }}"
-      - name: Check out infrastructure-live
+      - name: Check out reusable-workflow-infra-live
         uses: actions/checkout@v3
         with:
-          repository: FulcrumOps/infrastructure-live
+          repository: FulcrumOps/reusable-workflow-infra-live
           path: infrastructure-live
           token: "${{ secrets.FULCRUM_CI_TOKEN }}"
 
@@ -33,16 +33,16 @@ jobs:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
-        working-directory: infrastructure-live/direct/null
+        working-directory: infrastructure-live
         continue-on-error: true
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         id: init
         run: terraform init
-        working-directory: infrastructure-live/direct/null
+        working-directory: infrastructure-live
 
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -input=false
-        working-directory: infrastructure-live/direct/null
+        working-directory: infrastructure-live
