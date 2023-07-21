@@ -1,16 +1,7 @@
 on:
   workflow_dispatch:
-    inputs:
-      firstName:
-        description: 'First Name'
-        required: true
-        type: string
   workflow_call:
-    inputs:
-      firstName:
-        description: 'First Name'
-        required: true
-        type: string
+
 jobs:
   demo:
     runs-on: ubuntu-latest
@@ -18,9 +9,10 @@ jobs:
       run:
         shell: bash
     steps:
-#      - name: Demo
-#        run: echo "Hello, ${{ inputs.firstName }}. I am using ${{  secrets.FULCRUM_CI_TOKEN }} as a secret. although GitHub will redact it."
-
+      - name: Repo secret
+        run: echo "REPO_SECRET (should be redacted if run locally and empty if run via reusable workflow): ${{ secrets.REPO_SECRET }}"
+      - name: Org secret
+        run: echo "ORG_SECRET (should be redacted): ${{ secrets.ORG_SECRET }}"
       - name: Check out infrastructure-live
         uses: actions/checkout@v3
         with:
