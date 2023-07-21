@@ -12,18 +12,22 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Repo secret (will be redacted if run locally or empty if reused from another workflow)
+      - name: infra-live secret (will be redacted if run locally or empty if reused from another workflow)
         run: |
-            echo "REPO_SECRET: ${{ secrets.REPO_SECRET }}"
-      - name: Org secret (will be redacted)
+            echo "INFRA_LIVE_SECRET: ${{ secrets.INFRA_LIVE_SECRET }}"
+      - name: infra-pipeline secret (will be redacted)
+        run: |
+            echo "INFRA_PIPELINE_SECRET: ${{ secrets.INFRA_PIPELINE_SECRET }}"
+      - name: org secret (will be redacted)
         run: |
             echo "ORG_SECRET: ${{ secrets.ORG_SECRET }}"
+
       - name: Check out reusable-workflow-infra-live
         uses: actions/checkout@v3
         with:
           repository: FulcrumOps/reusable-workflow-infra-live
           path: infrastructure-live
-          token: "${{ secrets.FULCRUM_CI_TOKEN }}"
+          token: "${{ secrets.INFRA_LIVE_SECRET || secrets.INFRA_PIPELINE_SECRET || secrets.ORG_SECRET }}"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
