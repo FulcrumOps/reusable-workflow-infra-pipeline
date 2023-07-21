@@ -10,9 +10,9 @@ jobs:
         shell: bash
     steps:
       - name: Repo secret
-        run: echo REPO_SECRET (should be redacted if run locally and empty if run via reusable workflow): ${{ secrets.REPO_SECRET }}
+        run: echo REPO_SECRET: ${{ secrets.REPO_SECRET }}
       - name: Org secret
-        run: echo ORG_SECRET (should be redacted): ${{ secrets.ORG_SECRET }}
+        run: echo ORG_SECRET: ${{ secrets.ORG_SECRET }}
       - name: Check out infrastructure-live
         uses: actions/checkout@v3
         with:
